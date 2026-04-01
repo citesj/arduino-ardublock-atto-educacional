@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Script completo para instalação do Arduino IDE 1.8.9 + ArduBlock no Linux
-# Autor: Script gerado automaticamente
-# Data: $(date)
+# Autor: Eduardo "duZÃO" Henrique
+# Data: 20/09/2025
 
 echo "======================================================="
 echo "=== Instalação Completa: Arduino IDE + ArduBlock ====="
@@ -62,7 +62,7 @@ if [ "$ARDUINO_INSTALLED" = false ]; then
 
     # Baixar o Arduino IDE
     echo "1. Baixando o Arduino IDE..."
-    wget https://downloads.arduino.cc/arduino-1.8.19-linux64.tar.xz
+    wget http://attoeducacional.com.br/wp-content/uploads/2019/04/arduino-1.8.9-linux64.tar.zip
 
     # Verificar se o download foi bem-sucedido
     if [ $? -ne 0 ]; then
@@ -73,11 +73,21 @@ if [ "$ARDUINO_INSTALLED" = false ]; then
     echo "Download do Arduino IDE concluído!"
     echo
 
+    # Primeira descompactação (ZIP)
+    echo "2. Primeira descompactação (ZIP)..."
+    unzip arduino-1.8.9-linux64.tar.zip
+
+    # Verificar se a descompactação foi bem-sucedida
+    if [ $? -ne 0 ]; then
+        echo "Erro: Falha na descompactação do arquivo ZIP."
+        exit 1
+    fi
+
     echo "Primeira descompactação concluída!"
     echo
 
-    # Descompatação (TAR) para /opt
-    echo "2. Descompactando para /opt..."
+    # Segunda descompactação (TAR) para /opt
+    echo "3. Segunda descompactação (TAR) para /opt..."
     sudo tar -C /opt -xf arduino-1.8.9-linux64.tar.xz
 
     # Verificar se a descompactação foi bem-sucedida
@@ -90,7 +100,7 @@ if [ "$ARDUINO_INSTALLED" = false ]; then
     echo
 
     # Entrar na pasta descompactada
-    echo "3. Entrando na pasta descompactada..."
+    echo "4. Entrando na pasta descompactada..."
     cd /opt/arduino-1.8.9
 
     # Mostrar diretório atual
@@ -99,7 +109,7 @@ if [ "$ARDUINO_INSTALLED" = false ]; then
     echo
 
     # Executar o instalador
-    echo "4. Executando o instalador do Arduino IDE..."
+    echo "5. Executando o instalador do Arduino IDE..."
     sudo ./install.sh
 
     # Verificar se a instalação foi bem-sucedida
@@ -112,7 +122,7 @@ if [ "$ARDUINO_INSTALLED" = false ]; then
     echo
 
     # Voltar para o diretório inicial e limpar arquivos do Arduino IDE
-    echo "5. Limpando arquivos temporários do Arduino IDE..."
+    echo "6. Limpando arquivos temporários do Arduino IDE..."
     cd - > /dev/null
 
     if [ -f "arduino-1.8.9-linux64.tar.zip" ]; then
@@ -160,7 +170,7 @@ if [ "$ARDUBLOCK_INSTALLED" = false ]; then
     fi
 
     # Entrar na pasta Arduino
-    echo "6. Entrando na pasta Arduino..."
+    echo "7. Entrando na pasta Arduino..."
     cd "$ARDUINO_DIR"
 
     # Verificar se conseguiu entrar na pasta
@@ -173,8 +183,8 @@ if [ "$ARDUBLOCK_INSTALLED" = false ]; then
     echo
 
     # Baixar o ArduBlock
-    echo "7. Baixando o ArduBlock..."
-    wget https://github.com/citesj/arduino-ardublock-atto-educacional/raw/refs/heads/main/tools.zip
+    echo "8. Baixando o ArduBlock..."
+    wget http://attoeducacional.com.br/wp-content/uploads/2019/04/tools.zip
 
     # Verificar se o download foi bem-sucedido
     if [ $? -ne 0 ]; then
@@ -186,7 +196,7 @@ if [ "$ARDUBLOCK_INSTALLED" = false ]; then
     echo
 
     # Descompactar o ArduBlock
-    echo "8. Descompactando o ArduBlock..."
+    echo "9. Descompactando o ArduBlock..."
     unzip tools.zip
 
     # Verificar se a descompactação foi bem-sucedida
@@ -199,7 +209,7 @@ if [ "$ARDUBLOCK_INSTALLED" = false ]; then
     echo
 
     # Limpar arquivo zip do ArduBlock
-    echo "9. Limpando arquivos temporários do ArduBlock..."
+    echo "10. Limpando arquivos temporários do ArduBlock..."
     if [ -f "tools.zip" ]; then
         rm tools.zip
         echo "Arquivo tools.zip removido."
@@ -223,7 +233,7 @@ echo
 ARDUINO_CONFIG_DIR="$HOME/.arduino15"
 PREFERENCES_FILE="$ARDUINO_CONFIG_DIR/preferences.txt"
 
-echo "10. Configurando preferências padrão do Arduino IDE..."
+echo "11. Configurando preferências padrão do Arduino IDE..."
 
 # Criar o diretório de configurações se não existir
 if [ ! -d "$ARDUINO_CONFIG_DIR" ]; then
@@ -310,7 +320,7 @@ echo "   - Idioma: Português Brasil (pt_BR)"
 echo
 
 # Adicionar usuário ao grupo dialout para acesso à porta serial
-echo "11. Configurando permissões para porta serial..."
+echo "12. Configurando permissões para porta serial..."
 if groups $USER | grep -q dialout; then
     echo "✅ Usuário já está no grupo dialout."
 else
