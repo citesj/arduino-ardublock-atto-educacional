@@ -5,7 +5,7 @@ Este repositório contém scripts de automação para configurar rapidamente o a
 ## 🪟 Windows (PowerShell)
 
 ### 📥 Download Direto
-> [**Clique aqui para baixar o instalador do Windows (.ps1)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.0/full-install-arduino.ps1)
+> [**Clique aqui para baixar o instalador do Windows (.exe)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.1/Instalador_Arduino_Ardublock_Atto.EXE)
 
 ### Pré-requisitos
 * Ter privilégios de Administrador no computador.
@@ -30,7 +30,7 @@ Este repositório contém scripts de automação para configurar rapidamente o a
 ## 🐧 Linux (Bash)
 
 ### 📥 Download Direto
-> [**Clique aqui para baixar o instalador do Linux (.sh)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.0/full-install-arduino.sh)
+> [**Clique aqui para baixar o instalador do Linux (.sh)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.1/full-install-arduino.sh)
 
 ### Pré-requisitos
 * Sistema baseado em Debian/Ubuntu (ou que suporte `apt` e `wget`).
