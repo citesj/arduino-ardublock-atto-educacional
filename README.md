@@ -12,18 +12,12 @@ Este repositório contém scripts de automação para configurar rapidamente o a
 * Conexão com a internet para baixar os componentes.
 
 ### Como usar
-1.  **Baixe o script**: Certifique-se de que o arquivo `full-install-arduino.ps1` está na sua pasta de Downloads.
-2.  **Abra o PowerShell como Administrador**:
-    * Clique no Menu Iniciar, digite "PowerShell".
-    * Clique com o botão direito e selecione **"Executar como Administrador"**.
-3.  **Habilite a execução de scripts** (caso necessário):
-    * No terminal, digite: `Set-ExecutionPolicy RemoteSigned -Scope Process` e confirme com `S`.
-4.  **Navegue até a pasta e execute**:
-    ```powershell
-    cd $env:USERPROFILE\Downloads
-    .\full-install-arduino.ps1
-    ```
-5.  **Aguarde o [OK]**: O script baixará a IDE, instalará o ArduBlock e configurará a placa para **Arduino Duemilanove / ATmega328P** automaticamente.
+1.  **Baixe o instalador**: Obtenha o arquivo `Instalador_Arduino_Atto.exe`.
+2.  **Execute como Administrador**:
+    * Clique com o **botão direito** no arquivo `.exe`.
+    * Selecione **"Executar como Administrador"**.
+3.  **Aguarde a automação**: O instalador configurará o certificado de confiança, baixará a IDE 1.8.19 e instalará o ArduBlock automaticamente.
+4.  **Conclusão [OK]:**: Quando a mensagem "INSTALAÇÃO CONCLUÍDA" aparecer, a placa já estará configurada como **Arduino Duemilanove / ATmega328P** e pronta para uso.
 
 ---
 
