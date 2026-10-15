@@ -260,7 +260,6 @@ board=uno
 # Processador padrão: ATmega328P
 target_package=arduino
 target_platform=avr
-custom_cpu=uno_atmega328
 
 # Porta padrão
 serial.port=/dev/ttyUSB0
