@@ -254,13 +254,13 @@ cat > "$PREFERENCES_FILE" << EOF
 # Configurações padrão do Arduino IDE
 # Gerado automaticamente pelo script de instalação
 
-# Placa padrão: Arduino Duemilanove or Diecimila
-board=diecimila
+# Placa padrão: Arduino Uno
+board=uno
 
 # Processador padrão: ATmega328P
 target_package=arduino
 target_platform=avr
-custom_cpu=diecimila_atmega328
+custom_cpu=uno_atmega328
 
 # Porta padrão
 serial.port=/dev/ttyUSB0
@@ -313,7 +313,7 @@ fi
 chmod 644 "$PREFERENCES_FILE"
 
 echo "✅ Configurações padrão aplicadas:"
-echo "   - Placa: Arduino Duemilanove or Diecimila"
+echo "   - Placa: Arduino Uno"
 echo "   - Processador: ATmega328P"
 echo "   - Porta: /dev/ttyUSB0"
 echo "   - Idioma: Português Brasil (pt_BR)"
@@ -359,7 +359,7 @@ fi
 echo "✅ Configurações padrão aplicadas: $PREFERENCES_FILE"
 echo
 echo "CONFIGURAÇÕES PADRÃO APLICADAS:"
-echo "🔧 Placa: Arduino Duemilanove or Diecimila"
+echo "🔧 Placa: Arduino Uno"
 echo "🔧 Processador: ATmega328P"
 echo "🔧 Porta: /dev/ttyUSB0"
 echo "🔧 Idioma: Português Brasil"
@@ -369,19 +369,24 @@ echo "1. Arduino IDE:"
 echo "   - Encontre no menu de aplicações do seu sistema"
 echo "   - Ou execute: /opt/arduino-1.8.9/arduino"
 echo
+
 echo "2. ArduBlock:"
 echo "   - Abra o Arduino IDE"
 echo "   - Vá em Ferramentas (Tools) → ArduBlock"
 echo "   - O ArduBlock aparecerá no menu"
 echo
+
 echo "OBSERVAÇÕES IMPORTANTES:"
 echo "⚠️  Se você foi adicionado ao grupo dialout, faça logout e login"
 echo "    novamente para que as permissões da porta serial funcionem."
 echo
+
 echo "⚠️  Se a porta /dev/ttyUSB0 não existir, você pode alterá-la no"
 echo "    Arduino IDE em: Ferramentas → Porta"
 echo
+
 echo "⚠️  As configurações podem ser alteradas posteriormente através"
 echo "    do menu Arquivo → Preferências no Arduino IDE"
 echo
+
 echo "Instalação concluída! 🎉"
