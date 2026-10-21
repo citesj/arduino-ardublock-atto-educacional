@@ -15,17 +15,15 @@ O link acima aponta para a última versão do instalador já publicada. Para ger
 
 ### Como usar
 1.  **Baixe o instalador**: Obtenha o arquivo `Instalador_Arduino_Atto.exe`.
-2.  **Execute como Administrador**:
-    * Clique com o **botão direito** no arquivo `.exe`.
-    * Selecione **"Executar como Administrador"**.
-3.  **Aguarde a automação**: O instalador baixará a IDE 1.8.19 e instalará o ArduBlock automaticamente.
-4.  **Conclusão [OK]:**: Quando a mensagem "INSTALAÇÃO CONCLUÍDA" aparecer, a placa já estará configurada como **Arduino Uno / ATmega328P** e pronta para uso.
+2.  **Abra o instalador**: O Windows solicitará permissão de administrador. Confirme a janela do UAC para continuar.
+3.  **Aguarde a automação**: O instalador baixará a IDE 1.8.19 e instalará o ArduBlock automaticamente. A janela permanecerá aberta para exibir o resultado.
+4.  **Conclusão [OK]:**: Quando a mensagem "INSTALAÇÃO CONCLUÍDA" aparecer, a placa já estará configurada como **Arduino Uno / ATmega328P** e pronta para uso. Pressione Enter para fechar a janela.
 
 Para um instalador assinado com certificado autoassinado, o computador precisa confiar previamente no certificado público do editor. O instalador não deve instalar esse certificado silenciosamente.
 
 ### Como gerar o instalador Windows
 
-O script [build-windows-installer.ps1](./build-windows-installer.ps1) usa o IExpress do Windows para empacotar o script já assinado e, em seguida, assina o `.exe` final com o mesmo certificado.
+O script [build-windows-installer.ps1](./build-windows-installer.ps1) assina o instalador [full-install-arduino.ps1](./full-install-arduino.ps1) e o inicializador [run-install.ps1](./run-install.ps1), usa o IExpress do Windows para empacotá-los e, em seguida, assina o `.exe` final com o mesmo certificado. O inicializador solicita elevação pelo UAC e mantém a janela aberta para mostrar sucesso ou erros.
 
 Crie um certificado de assinatura de código no repositório pessoal do Windows:
 

@@ -8,10 +8,15 @@ $ErrorActionPreference = "Stop"
 
 $repositoryRoot = $PSScriptRoot
 $installerScript = Join-Path $repositoryRoot "full-install-arduino.ps1"
+$launcherScript = Join-Path $repositoryRoot "run-install.ps1"
 $iexpressPath = Join-Path $env:WINDIR "System32\iexpress.exe"
 
 if (-not (Test-Path $installerScript)) {
     throw "Script de instalação não encontrado: $installerScript"
+}
+
+if (-not (Test-Path $launcherScript)) {
+    throw "Inicializador de instalação não encontrado: $launcherScript"
 }
 
 if (-not (Test-Path $iexpressPath)) {
@@ -48,18 +53,20 @@ $scriptSignature = Set-AuthenticodeSignature `
 if ($scriptSignature.Status -ne "Valid") {
     throw "Falha ao assinar o script: $($scriptSignature.StatusMessage)"
 }
+$launcherSignature = Set-AuthenticodeSignature `
+    -FilePath $launcherScript `
+    -Certificate $certificate `
+    -HashAlgorithm SHA256
+if ($launcherSignature.Status -ne "Valid") {
+    throw "Falha ao assinar o inicializador: $($launcherSignature.StatusMessage)"
+}
 
 $stagingDirectory = Join-Path $env:TEMP ("ArduinoInstaller-" + [guid]::NewGuid().ToString("N"))
 New-Item -ItemType Directory -Path $stagingDirectory | Out-Null
 
 try {
     Copy-Item -Path $installerScript -Destination (Join-Path $stagingDirectory "full-install-arduino.ps1")
-    $launcherPath = Join-Path $stagingDirectory "run-install.cmd"
-    Set-Content -Path $launcherPath -Encoding ASCII -Value @'
-@echo off
-powershell.exe -NoProfile -ExecutionPolicy AllSigned -File "%~dp0full-install-arduino.ps1"
-exit /b %ERRORLEVEL%
-'@
+    Copy-Item -Path $launcherScript -Destination (Join-Path $stagingDirectory "run-install.ps1")
 
     $sedPath = Join-Path $stagingDirectory "installer.sed"
     $sedContent = @"
@@ -69,12 +76,12 @@ DisplayLicense=
 FinishMessage=
 TargetName=$stagingDirectory\Instalador_Arduino_Atto.exe
 FriendlyName=Arduino IDE e ArduBlock
-AppLaunched=cmd /c run-install.cmd
+AppLaunched=powershell.exe -NoProfile -ExecutionPolicy AllSigned -File run-install.ps1
 PostInstallCmd=<None>
 AdminQuietInstCmd=
 UserQuietInstCmd=
 FILE0="full-install-arduino.ps1"
-FILE1="run-install.cmd"
+FILE1="run-install.ps1"
 [Version]
 Class=IEXPRESS
 SEDVersion=3
@@ -133,6 +140,7 @@ SourceFiles0=$stagingDirectory
     }
 
     Write-Host "Script assinado e validado: $installerScript" -ForegroundColor Green
+    Write-Host "Inicializador assinado e validado: $launcherScript" -ForegroundColor Green
     Write-Host "Instalador assinado e validado: $OutputPath" -ForegroundColor Green
 }
 finally {
