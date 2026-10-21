@@ -42,6 +42,7 @@ Este repositório contém scripts de automação para configurar rapidamente o a
     ```
 3.  **Senha de Administrador**: O sistema solicitará sua senha para instalar a IDE no diretório `/opt`.
 4.  **Reinicie a sessão**: Se o seu usuário for adicionado ao grupo `dialout` (para acessar a porta USB), você deve fazer **Logout** e **Login** novamente para que a alteração tenha efeito.
+5.  **Preferências existentes**: No Linux, o instalador preserva as preferências já definidas e só adiciona valores padrão ausentes. Se uma etapa necessária falhar, ele encerra com erro em vez de informar sucesso.
 
 ---
 
@@ -56,6 +57,6 @@ Independente do sistema, o processo para abrir a interface de blocos é o mesmo:
 
 ### Configurações Padrão Aplicadas
 Os scripts já deixam a IDE pré-configurada com:
-* **Placa**: Arduino Duemilanove or Diecimila.
+* **Placa**: Arduino Duemilanove/Diecimila no Windows; Arduino Uno no Linux, somente se ainda não houver uma placa configurada.
 * **Processador**: ATmega328P.
 * **Idioma**: Português Brasil (pt_BR).
