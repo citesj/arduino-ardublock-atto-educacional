@@ -1,58 +1,25 @@
 # Manutenção do instalador do Windows
 
-Este documento é destinado a mantenedores que precisam gerar e assinar uma nova versão do instalador do Windows. As instruções de instalação para usuários finais estão no [README principal](./README.md).
+Este documento é destinado a mantenedores que precisam gerar uma nova versão do instalador do Windows. As instruções de instalação para usuários finais estão no [README principal](./README.md).
 
-O script [build-windows-installer.ps1](./build-windows-installer.ps1) assina o instalador [full-install-arduino.ps1](./full-install-arduino.ps1) e o inicializador [run-install.ps1](./run-install.ps1), usa o IExpress do Windows para empacotá-los e, em seguida, assina o `.exe` final com o mesmo certificado. O inicializador solicita elevação pelo UAC e mantém a janela aberta para mostrar sucesso ou erros.
+## Gerar o instalador
 
-## Criar um certificado de assinatura
-
-Crie um certificado de assinatura de código no repositório pessoal do Windows:
+Em um computador Windows com o PowerShell e o IExpress (incluído no Windows), execute na pasta do repositório:
 
 ```powershell
-$cert = New-SelfSignedCertificate `
-  -Type CodeSigningCert `
-  -Subject "CN=Arduino ArduBlock Installer" `
-  -CertStoreLocation Cert:\CurrentUser\My `
-  -HashAlgorithm SHA256 `
-  -KeyLength 3072 `
-  -NotAfter (Get-Date).AddYears(3)
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build-windows-installer.ps1
 ```
 
-Para validar assinaturas neste computador, exporte e confie no certificado público:
+O executável será criado em `dist\Instalador_Arduino_Atto.exe`. Para escolher outro destino:
 
 ```powershell
-$publicCertPath = Join-Path $env:TEMP "arduino-installer-public.cer"
-Export-Certificate -Cert $cert -FilePath $publicCertPath | Out-Null
-certutil.exe -f -user -addstore Root $publicCertPath
-certutil.exe -f -user -addstore TrustedPublisher $publicCertPath
-Remove-Item $publicCertPath
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build-windows-installer.ps1 -OutputPath C:\caminho\Instalador_Arduino_Atto.exe
 ```
 
-## Gerar e assinar o instalador
+O `.exe` contém o script de instalação e seu inicializador. Ele baixa o Arduino IDE e o ArduBlock durante a execução, portanto o computador de destino precisa de conexão com a internet. Não é necessário distribuir os arquivos `.ps1` separadamente.
 
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build-windows-installer.ps1 -CertificateThumbprint $cert.Thumbprint
-```
+## Publicar uma release
 
-O `Bypass` vale somente para esse processo usado para gerar o pacote; o `.ps1` dentro do instalador é executado com `AllSigned`. O arquivo será criado em `dist\Instalador_Arduino_Atto.exe`. A chave privada permanece no repositório de certificados do usuário e não deve ser exportada nem distribuída.
+Ao publicar uma release no GitHub, o workflow [build-windows-installer.yml](./.github/workflows/build-windows-installer.yml) gera o executável no Windows e o anexa automaticamente como asset `Instalador_Arduino_Atto.exe`. Não é necessário gerar nem anexar o arquivo manualmente.
 
-Para outros computadores, distribua somente o certificado público por um canal confiável, confira a impressão digital (`$cert.Thumbprint`) e configure a confiança antes de executar o instalador, por exemplo:
-
-```powershell
-certutil.exe -user -addstore Root .\arduino-installer-public.cer
-certutil.exe -user -addstore TrustedPublisher .\arduino-installer-public.cer
-```
-
-Um certificado autoassinado pode continuar gerando avisos do SmartScreen.
-
-Para disponibilizar o certificado público a computadores gerenciados, exporte somente a parte pública:
-
-```powershell
-Export-Certificate -Cert $cert -FilePath .\arduino-installer-public.cer | Out-Null
-```
-
-Confirme a impressão digital do certificado antes de instalá-lo nos destinatários:
-
-```powershell
-certutil.exe -dump .\arduino-installer-public.cer
-```
+O executável não é assinado digitalmente; o Windows pode exibir um aviso do SmartScreen. A publicação é feita na página oficial de releases do repositório.

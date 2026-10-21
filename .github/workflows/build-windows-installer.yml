@@ -1,0 +1,25 @@
+name: Build Windows installer
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@v4
+
+      - name: Build installer
+        shell: pwsh
+        run: .\build-windows-installer.ps1
+
+      - name: Upload installer to release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$env:GITHUB_REF_NAME" ".\dist\Instalador_Arduino_Atto.exe" --clobber

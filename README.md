@@ -5,17 +5,19 @@ Siga as instruções abaixo para instalar o Arduino IDE e o ArduBlock. Escolha a
 ## 🪟 Windows (PowerShell)
 
 ### 📥 Download Direto
-> [**Clique aqui para baixar o instalador do Windows (.exe)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.1/instalador_arduino_ardublock.EXE)
+> [**Baixe o instalador do Windows (.exe) na release mais recente**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/latest)
 
 ### Pré-requisitos
 * Ter privilégios de Administrador no computador.
-* Conexão com a internet para baixar os componentes.
+* Conexão com a internet para baixar os componentes durante a instalação.
 
 ### Como usar
-1.  **Baixe o instalador** pelo link acima.
-2.  **Abra o arquivo baixado**: O Windows solicitará permissão de administrador. Confirme a janela do UAC para continuar.
-3.  **Aguarde a automação**: O instalador baixará a IDE 1.8.19 e instalará o ArduBlock automaticamente. A janela permanecerá aberta para exibir o resultado.
-4.  **Conclusão [OK]:**: Quando a mensagem "INSTALAÇÃO CONCLUÍDA" aparecer, a placa já estará configurada como **Arduino Uno** e pronta para uso. Pressione Enter para fechar a janela.
+1. Baixe somente o arquivo `.exe` na seção **Assets** da release mais recente. Não é necessário baixar os scripts ou outros arquivos.
+2. Abra o `.exe` e confirme a solicitação de administrador do Windows.
+3. Aguarde enquanto o instalador baixa e configura o Arduino IDE 1.8.19 e o ArduBlock. A janela mostra o resultado e permanece aberta ao final.
+4. Quando aparecer **INSTALAÇÃO CONCLUÍDA COM SUCESSO**, pressione Enter para fechar. A placa estará configurada como **Arduino Uno**.
+
+O instalador do Windows não é assinado digitalmente e pode exibir um aviso do SmartScreen. Baixe-o apenas pela página oficial de releases acima.
 
 ---
 
