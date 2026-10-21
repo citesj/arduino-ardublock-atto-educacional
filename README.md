@@ -7,6 +7,8 @@ Este repositório contém scripts de automação para configurar rapidamente o a
 ### 📥 Download Direto
 > [**Clique aqui para baixar o instalador do Windows (.exe)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.1/instalador_arduino_ardublock.EXE)
 
+O link acima aponta para a última versão do instalador já publicada. Para gerar uma nova versão com os arquivos atuais, siga [Como gerar o instalador Windows](#como-gerar-o-instalador-windows).
+
 ### Pré-requisitos
 * Ter privilégios de Administrador no computador.
 * Conexão com a internet para baixar os componentes.
@@ -16,8 +18,63 @@ Este repositório contém scripts de automação para configurar rapidamente o a
 2.  **Execute como Administrador**:
     * Clique com o **botão direito** no arquivo `.exe`.
     * Selecione **"Executar como Administrador"**.
-3.  **Aguarde a automação**: O instalador configurará o certificado de confiança, baixará a IDE 1.8.19 e instalará o ArduBlock automaticamente.
-4.  **Conclusão [OK]:**: Quando a mensagem "INSTALAÇÃO CONCLUÍDA" aparecer, a placa já estará configurada como **Arduino Duemilanove / ATmega328P** e pronta para uso.
+3.  **Aguarde a automação**: O instalador baixará a IDE 1.8.19 e instalará o ArduBlock automaticamente.
+4.  **Conclusão [OK]:**: Quando a mensagem "INSTALAÇÃO CONCLUÍDA" aparecer, a placa já estará configurada como **Arduino Uno / ATmega328P** e pronta para uso.
+
+Para um instalador assinado com certificado autoassinado, o computador precisa confiar previamente no certificado público do editor. O instalador não deve instalar esse certificado silenciosamente.
+
+### Como gerar o instalador Windows
+
+O script [build-windows-installer.ps1](./build-windows-installer.ps1) usa o IExpress do Windows para empacotar o script já assinado e, em seguida, assina o `.exe` final com o mesmo certificado.
+
+Crie um certificado de assinatura de código no repositório pessoal do Windows:
+
+```powershell
+$cert = New-SelfSignedCertificate `
+  -Type CodeSigningCert `
+  -Subject "CN=Arduino ArduBlock Installer" `
+  -CertStoreLocation Cert:\CurrentUser\My `
+  -HashAlgorithm SHA256 `
+  -KeyLength 3072 `
+  -NotAfter (Get-Date).AddYears(3)
+```
+
+Para validar assinaturas neste computador, exporte e confie no certificado público:
+
+```powershell
+$publicCertPath = Join-Path $env:TEMP "arduino-installer-public.cer"
+Export-Certificate -Cert $cert -FilePath $publicCertPath | Out-Null
+certutil.exe -f -user -addstore Root $publicCertPath
+certutil.exe -f -user -addstore TrustedPublisher $publicCertPath
+Remove-Item $publicCertPath
+```
+
+Gere e assine o instalador:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build-windows-installer.ps1 -CertificateThumbprint $cert.Thumbprint
+```
+
+O `Bypass` vale somente para esse processo usado para gerar o pacote; o `.ps1` dentro do instalador é executado com `AllSigned`. O arquivo será criado em `dist\Instalador_Arduino_Atto.exe`. A chave privada permanece no repositório de certificados do usuário e não deve ser exportada nem distribuída. Para outros computadores, distribua somente o certificado público por um canal confiável, confira a impressão digital (`$cert.Thumbprint`) e configure a confiança antes de executar o instalador, por exemplo:
+
+```powershell
+certutil.exe -user -addstore Root .\arduino-installer-public.cer
+certutil.exe -user -addstore TrustedPublisher .\arduino-installer-public.cer
+```
+
+Um certificado autoassinado pode continuar gerando avisos do SmartScreen.
+
+Para disponibilizar o certificado público a computadores gerenciados, exporte somente a parte pública:
+
+```powershell
+Export-Certificate -Cert $cert -FilePath .\arduino-installer-public.cer | Out-Null
+```
+
+Confirme a impressão digital do certificado antes de instalá-lo nos destinatários:
+
+```powershell
+certutil.exe -dump .\arduino-installer-public.cer
+```
 
 ---
 
@@ -56,6 +113,6 @@ Independente do sistema, o processo para abrir a interface de blocos é o mesmo:
 
 ### Configurações Padrão Aplicadas
 Os scripts já deixam a IDE pré-configurada com:
-* **Placa**: Arduino Duemilanove or Diecimila.
+* **Placa**: Arduino Uno.
 * **Processador**: ATmega328P.
 * **Idioma**: Português Brasil (pt_BR).
