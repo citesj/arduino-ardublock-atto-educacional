@@ -23,7 +23,7 @@ if (-not $isAdministrator) {
     }
     catch [System.ComponentModel.Win32Exception] {
         if ($_.Exception.NativeErrorCode -eq 1223) {
-            Write-Host "A solicitação de administrador foi cancelada." -ForegroundColor Yellow
+            Write-Host "A solicitacao de administrador foi cancelada." -ForegroundColor Yellow
             Read-Host "Pressione Enter para fechar"
             exit 1
         }
@@ -38,7 +38,7 @@ try {
     $exitCode = 0
 }
 catch {
-    Write-Host "`nA instalação falhou." -ForegroundColor Red
+    Write-Host "`nA instalacao falhou." -ForegroundColor Red
     Write-Host $_.Exception.Message -ForegroundColor Red
     $exitCode = 1
 }
