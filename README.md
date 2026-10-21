@@ -19,6 +19,8 @@ O link acima aponta para a última versão do instalador já publicada. Para ger
 3.  **Aguarde a automação**: O instalador baixará a IDE 1.8.19 e instalará o ArduBlock automaticamente. A janela permanecerá aberta para exibir o resultado.
 4.  **Conclusão [OK]:**: Quando a mensagem "INSTALAÇÃO CONCLUÍDA" aparecer, a placa já estará configurada como **Arduino Uno / ATmega328P** e pronta para uso. Pressione Enter para fechar a janela.
 
+As preferências já existentes do Arduino são preservadas; o instalador cria um backup e acrescenta somente os padrões que ainda não estiverem definidos. Downloads e arquivos instalados são verificados antes de informar sucesso.
+
 Para um instalador assinado com certificado autoassinado, o computador precisa confiar previamente no certificado público do editor. O instalador não deve instalar esse certificado silenciosamente.
 
 ### Como gerar o instalador Windows
