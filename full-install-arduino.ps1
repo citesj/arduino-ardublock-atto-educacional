@@ -95,7 +95,7 @@ try {
             throw "O arquivo baixado do Arduino IDE está vazio ou não foi criado."
         }
 
-        Write-InstallationLog -Message "Instalador do Arduino preparado. Agora será executado em modo automático para concluir a instalação." -Color White
+        Write-InstallationLog -Message "Instalador baixado. Executando processo de instalação. Aguarde..." -Color White
         $installProcess = Start-Process -FilePath $exePath -ArgumentList "/S" -Wait -PassThru
         if ($installProcess.ExitCode -ne 0) {
             throw "O instalador do Arduino IDE terminou com código $($installProcess.ExitCode)."
