@@ -106,7 +106,7 @@ if [ "$ARDUINO_INSTALLED" = false ]; then
     echo
 
     # Entrar na pasta descompactada
-    echo "4. Entrando na pasta descompactada..."
+    echo "3. Entrando na pasta descompactada..."
     if ! cd "$ARDUINO_INSTALL_DIR"; then
         die "Não foi possível acessar $ARDUINO_INSTALL_DIR."
     fi
@@ -117,7 +117,7 @@ if [ "$ARDUINO_INSTALLED" = false ]; then
     echo
 
     # Executar o instalador
-    echo "5. Executando o instalador do Arduino IDE..."
+    echo "4. Executando o instalador do Arduino IDE..."
     if ! sudo ./install.sh; then
         die "Falha durante a instalação do Arduino IDE."
     fi
@@ -129,7 +129,7 @@ if [ "$ARDUINO_INSTALLED" = false ]; then
     echo
 
     # O arquivo baixado será removido pela rotina de limpeza ao final.
-    echo "6. O arquivo temporário do Arduino IDE será removido ao final."
+    echo "5. O arquivo temporário do Arduino IDE será removido ao final."
 
     echo
 else
@@ -162,7 +162,7 @@ if [ "$ARDUBLOCK_INSTALLED" = false ]; then
     fi
 
     # Entrar na pasta Arduino
-    echo "7. Entrando na pasta Arduino..."
+    echo "6. Entrando na pasta Arduino..."
     if ! cd "$ARDUINO_DIR"; then
         die "Não foi possível acessar o diretório $ARDUINO_DIR."
     fi
@@ -171,7 +171,7 @@ if [ "$ARDUBLOCK_INSTALLED" = false ]; then
     echo
 
     # Baixar o ArduBlock
-    echo "8. Baixando o ArduBlock..."
+    echo "7. Baixando o ArduBlock..."
     ARDUBLOCK_ARCHIVE="$TEMP_DIR/tools.zip"
     if ! wget -O "$ARDUBLOCK_ARCHIVE" https://attoeducacional.com.br/wp-content/uploads/2019/04/tools.zip; then
         die "Falha no download do ArduBlock."
@@ -184,7 +184,7 @@ if [ "$ARDUBLOCK_INSTALLED" = false ]; then
     echo
 
     # Descompactar o ArduBlock
-    echo "9. Descompactando o ArduBlock..."
+    echo "8. Descompactando o ArduBlock..."
     if ! unzip -oq "$ARDUBLOCK_ARCHIVE" -d "$ARDUINO_DIR"; then
         die "Falha na descompactação do ArduBlock."
     fi
@@ -195,7 +195,7 @@ if [ "$ARDUBLOCK_INSTALLED" = false ]; then
     echo "Descompactação do ArduBlock concluída!"
     echo
 
-    echo "10. O arquivo temporário do ArduBlock será removido ao final."
+    echo "9. O arquivo temporário do ArduBlock será removido ao final."
     echo
 else
     echo "===================================="
@@ -214,7 +214,7 @@ echo
 ARDUINO_CONFIG_DIR="$HOME/.arduino15"
 PREFERENCES_FILE="$ARDUINO_CONFIG_DIR/preferences.txt"
 
-echo "11. Configurando preferências padrão do Arduino IDE..."
+echo "10. Configurando preferências padrão do Arduino IDE..."
 
 # Criar o diretório de configurações se não existir
 if ! mkdir -p "$ARDUINO_CONFIG_DIR"; then
@@ -314,7 +314,7 @@ echo "✅ Preferências verificadas; valores existentes foram preservados."
 echo
 
 # Adicionar usuário ao grupo dialout para acesso à porta serial
-echo "12. Configurando permissões para porta serial..."
+echo "11. Configurando permissões para porta serial..."
 USER_NAME="${SUDO_USER:-${USER:-}}"
 if [ -z "$USER_NAME" ]; then
     die "Não foi possível identificar o usuário para configurar o grupo dialout."
