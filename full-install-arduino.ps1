@@ -5,11 +5,12 @@
 # Força o PowerShell a entender caracteres especiais na leitura e na saída
 $OutputEncoding = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::InputEncoding = [System.Text.Encoding]::UTF8
 
 $ErrorActionPreference = "Stop"
 $SUCCESS_MARK = "[OK]"
 
-function Write-UserStatus {
+function Write-InstallationLog {
     param(
         [Parameter(Mandatory = $true)]
         [string]$Message,
@@ -42,7 +43,7 @@ function Write-StepHeader {
 
     Write-Progress -Activity "Instalação completa do Arduino IDE + ArduBlock" -Status $Title -PercentComplete (($Step / 4) * 100)
     Write-Host "`n[$Step/4] $Title" -ForegroundColor Yellow
-    Write-UserStatus -Message "Iniciando etapa $Step de 4: $Title" -Color Gray
+    Write-InstallationLog -Message "Iniciando etapa $Step de 4: $Title" -Color Gray
 }
 
 function Write-StepSuccess {
@@ -52,7 +53,7 @@ function Write-StepSuccess {
     )
 
     Write-Host "$SUCCESS_MARK $Message" -ForegroundColor Green
-    Write-UserStatus -Message $Message -Color Green
+    Write-InstallationLog -Message $Message -Color Green
 }
 
 Write-Host "=======================================================" -ForegroundColor Cyan
@@ -73,7 +74,7 @@ if ([string]::IsNullOrWhiteSpace($env:TEMP) -or [string]::IsNullOrWhiteSpace($en
     throw "Não foi possível determinar os diretórios temporário e de usuário."
 }
 
-$tempDir = Join-Path $env:TEMP ("ArduinoInstall-" + [guid]::NewGuid().ToString("N"))
+tempDir = Join-Path $env:TEMP ("ArduinoInstall-" + [guid]::NewGuid().ToString("N"))
 $sketchbookPath = Join-Path $env:USERPROFILE "Documents\Arduino"
 $preferencesPath = Join-Path $env:LOCALAPPDATA "Arduino15\preferences.txt"
 $ardublockJarPath = Join-Path $sketchbookPath "tools\ArduBlockTool\tool\ardublock-all.jar"
@@ -82,29 +83,21 @@ $script:InstallLogPath = Join-Path $tempDir "install.log"
 New-Item -ItemType Directory -Path $tempDir -ErrorAction Stop | Out-Null
 
 try {
-    Write-UserStatus -Message "Diretório temporário de instalação criado em: $tempDir" -Color Gray
+    Write-InstallationLog -Message "Diretório temporário de instalação criado em: $tempDir" -Color Gray
 
     Write-StepHeader -Step 1 -Title "Verificando instalação do Arduino IDE..."
     $arduinoExecutable = Join-Path $arduinoInstallDir "arduino.exe"
     if (-not (Test-Path -LiteralPath $arduinoExecutable -PathType Leaf)) {
-        Write-UserStatus -Message "Arduino IDE não encontrado na instalação padrão. Preparando download do instalador..." -Color White
+        Write-InstallationLog -Message "Arduino IDE não encontrado no diretório esperado. Iniciando download do instalador..." -Color White
         $exePath = Join-Path $tempDir "arduino-setup.exe"
-        Write-UserStatus -Message "Baixando o instalador do Arduino IDE 1.8.19..." -Color White
+        Write-InstallationLog -Message "Download do Arduino IDE 1.8.19 em andamento: $arduinoDownloadUrl" -Color White
         Invoke-WebRequest -Uri $arduinoDownloadUrl -OutFile $exePath -UseBasicParsing
         if (-not (Test-Path -LiteralPath $exePath -PathType Leaf) -or (Get-Item -LiteralPath $exePath).Length -eq 0) {
             throw "O arquivo baixado do Arduino IDE está vazio ou não foi criado."
         }
 
-        Write-UserStatus -Message "Instalador baixado. Iniciando a instalação em modo automático..." -Color White
-        Write-Progress -Activity "Instalando Arduino IDE 1.8.19" -Status "Aguarde enquanto o instalador conclui a configuração." -PercentComplete 25
-
-        $installProcess = Start-Process -FilePath $exePath -ArgumentList "/S" -PassThru
-        while (-not $installProcess.HasExited) {
-            Write-Progress -Activity "Instalando Arduino IDE 1.8.19" -Status "Aguarde..." -PercentComplete 50
-            Start-Sleep -Seconds 2
-        }
-        Write-Progress -Activity "Instalando Arduino IDE 1.8.19" -Completed
-
+        Write-InstallationLog -Message "Instalador baixado. Executando processo de instalação. Aguarde..." -Color White
+        $installProcess = Start-Process -FilePath $exePath -ArgumentList "/S" -Wait -PassThru
         if ($installProcess.ExitCode -ne 0) {
             throw "O instalador do Arduino IDE terminou com código $($installProcess.ExitCode)."
         }
@@ -119,19 +112,19 @@ try {
 
     Write-StepHeader -Step 2 -Title "Verificando instalação do ArduBlock..."
     if (-not (Test-Path -LiteralPath $sketchbookPath -PathType Container)) {
-        Write-UserStatus -Message "Criando diretório de sketchbook em $sketchbookPath" -Color Gray
+        Write-InstallationLog -Message "Criando diretório de sketchbook em $sketchbookPath" -Color Gray
         New-Item -ItemType Directory -Path $sketchbookPath -Force -ErrorAction Stop | Out-Null
     }
     if (-not (Test-Path -LiteralPath $ardublockJarPath -PathType Leaf)) {
         $toolsZipPath = Join-Path $tempDir "tools.zip"
         $stagingDirectory = Join-Path $tempDir "ardublock"
-        Write-UserStatus -Message "Baixando pacote do ArduBlock..." -Color White
+        Write-InstallationLog -Message "Baixando pacote do ArduBlock..." -Color White
         Invoke-WebRequest -Uri $ardublockZipUrl -OutFile $toolsZipPath -UseBasicParsing
         if (-not (Test-Path -LiteralPath $toolsZipPath -PathType Leaf) -or (Get-Item -LiteralPath $toolsZipPath).Length -eq 0) {
             throw "O arquivo baixado do ArduBlock está vazio ou não foi criado."
         }
 
-        Write-UserStatus -Message "Validando conteúdo do pacote e preparando a instalação do ArduBlock." -Color White
+        Write-InstallationLog -Message "Validando conteúdo do pacote e preparando a instalação do ArduBlock." -Color White
         New-Item -ItemType Directory -Path $stagingDirectory -ErrorAction Stop | Out-Null
         Expand-Archive -LiteralPath $toolsZipPath -DestinationPath $stagingDirectory -ErrorAction Stop
         $stagedArdublockJarPath = Join-Path $stagingDirectory "tools\ArduBlockTool\tool\ardublock-all.jar"
@@ -139,7 +132,7 @@ try {
             throw "O pacote baixado não contém o arquivo esperado do ArduBlock."
         }
 
-        Write-UserStatus -Message "Copiando arquivos do ArduBlock para o sketchbook do Arduino..." -Color White
+        Write-InstallationLog -Message "Copiando arquivos do ArduBlock para o sketchbook do Arduino..." -Color White
         Copy-Item -LiteralPath (Join-Path $stagingDirectory "tools") -Destination $sketchbookPath -Recurse -Force -ErrorAction Stop
         if (-not (Test-Path -LiteralPath $ardublockJarPath -PathType Leaf)) {
             throw "O arquivo do ArduBlock não foi encontrado após a instalação."
@@ -170,7 +163,7 @@ try {
         if (-not (Test-Path -LiteralPath $backupPath -PathType Leaf)) {
             throw "Não foi possível confirmar o backup das preferências."
         }
-        Write-UserStatus -Message "Backup das preferências criado em: $backupPath" -Color Gray
+        Write-InstallationLog -Message "Backup das preferências criado em: $backupPath" -Color Gray
 
         $existingLines = [System.IO.File]::ReadAllLines($preferencesPath)
         $existingKeys = @{}
@@ -233,8 +226,8 @@ try {
     Write-StepSuccess -Message "Preferências verificadas; valores existentes foram preservados."
 
     Write-StepHeader -Step 4 -Title "Finalizando instalação e limpando arquivos temporários..."
-    Write-UserStatus -Message "Instalação concluída com sucesso. O ambiente foi configurado para uso do Arduino + ArduBlock." -Color Green
-    Write-UserStatus -Message "Arquivos temporários serão removidos ao final da execução." -Color Gray
+    Write-InstallationLog -Message "Instalação concluída com sucesso. O ambiente foi configurado para uso do Arduino + ArduBlock." -Color Green
+    Write-InstallationLog -Message "Arquivos temporários serão removidos ao final da execução." -Color Gray
 
     Write-Host "`n=======================================================" -ForegroundColor Cyan
     Write-Host "       INSTALAÇÃO CONCLUÍDA COM SUCESSO!       " -ForegroundColor Cyan
@@ -243,7 +236,7 @@ try {
     Write-Host "1. Abra o Arduino IDE no menu Iniciar." -ForegroundColor White
     Write-Host "2. Vá em Ferramentas -> ArduBlock para iniciar a interface de blocos." -ForegroundColor White
     Write-Host "3. Se necessário, revise as preferências em Arquivo -> Preferências do Arduino." -ForegroundColor White
-    Write-Host "4. Arquivo de diagnóstico: $tempDir\install.log" -ForegroundColor Gray
+    Write-Host "4. O log desta instalação está em: $tempDir\install.log" -ForegroundColor Gray
 }
 finally {
     if (Test-Path -LiteralPath $tempDir) {
