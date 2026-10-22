@@ -24,7 +24,7 @@ O instalador do Windows não é assinado digitalmente e pode exibir um aviso do 
 ## 🐧 Linux (Bash)
 
 ### 📥 Download Direto
-> [**Clique aqui para baixar o instalador do Linux (.sh)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.2/full-install-arduino.sh)
+> [**Clique aqui para baixar o instalador do Linux (.sh)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v.1.0.2/full-install-arduino.sh)
 
 ### Pré-requisitos
 * Sistema baseado em Debian/Ubuntu (ou que suporte `apt` e `wget`).
