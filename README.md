@@ -1,23 +1,23 @@
-# 🚀 Tutorial de Instalação: Arduino + ArduBlock
+# 🚀 Instalação: Arduino + ArduBlock
 
-Este repositório contém scripts de automação para configurar rapidamente o ambiente de desenvolvimento. Escolha a seção abaixo de acordo com o seu sistema operacional.
+Siga as instruções abaixo para instalar o Arduino IDE e o ArduBlock. Escolha a seção de acordo com o seu sistema operacional.
 
 ## 🪟 Windows (PowerShell)
 
 ### 📥 Download Direto
-> [**Clique aqui para baixar o instalador do Windows (.exe)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.1/instalador_arduino_ardublock.EXE)
+> [**Baixe o instalador do Windows (.exe) na release mais recente**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/latest)
 
 ### Pré-requisitos
 * Ter privilégios de Administrador no computador.
-* Conexão com a internet para baixar os componentes.
+* Conexão com a internet para baixar os componentes durante a instalação.
 
 ### Como usar
-1.  **Baixe o instalador**: Obtenha o arquivo `Instalador_Arduino_Atto.exe`.
-2.  **Execute como Administrador**:
-    * Clique com o **botão direito** no arquivo `.exe`.
-    * Selecione **"Executar como Administrador"**.
-3.  **Aguarde a automação**: O instalador configurará o certificado de confiança, baixará a IDE 1.8.19 e instalará o ArduBlock automaticamente.
-4.  **Conclusão [OK]:**: Quando a mensagem "INSTALAÇÃO CONCLUÍDA" aparecer, a placa já estará configurada como **Arduino Duemilanove / ATmega328P** e pronta para uso.
+1. Baixe somente o arquivo `.exe` na seção **Assets** da release mais recente. Não é necessário baixar os scripts ou outros arquivos.
+2. Abra o `.exe` e confirme a solicitação de administrador do Windows.
+3. Aguarde enquanto o instalador baixa e configura o Arduino IDE 1.8.19 e o ArduBlock. A janela mostra o resultado e permanece aberta ao final.
+4. Quando aparecer **INSTALAÇÃO CONCLUÍDA COM SUCESSO**, pressione Enter para fechar. A placa estará configurada como **Arduino Uno**.
+
+O instalador do Windows não é assinado digitalmente e pode exibir um aviso do SmartScreen. Baixe-o apenas pela página oficial de releases acima.
 
 ---
 
@@ -56,6 +56,8 @@ Independente do sistema, o processo para abrir a interface de blocos é o mesmo:
 
 ### Configurações Padrão Aplicadas
 Os scripts já deixam a IDE pré-configurada com:
-* **Placa**: Arduino Duemilanove or Diecimila.
+* **Placa**: Arduino Uno.
 * **Processador**: ATmega328P.
 * **Idioma**: Português Brasil (pt_BR).
+
+<sub>Documentação para mantenedores: [gerar e assinar o instalador do Windows](./MANUTENCAO.md).</sub>
