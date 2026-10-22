@@ -240,7 +240,6 @@ if ! cat > "$PREFERENCES_DEFAULTS" << EOF
 board=uno
 target_package=arduino
 target_platform=avr
-serial.port=/dev/ttyUSB0
 editor.languages.current=pt_BR
 editor.tabs.size=2
 editor.font=Monospaced,plain,12
@@ -358,8 +357,6 @@ echo "✅ Preferências verificadas (valores existentes preservados): $PREFERENC
 echo
 echo "VALORES PADRÃO DEFINIDOS QUANDO AUSENTES:"
 echo "🔧 Placa: Arduino Uno"
-echo "🔧 Processador: ATmega328P"
-echo "🔧 Porta: /dev/ttyUSB0"
 echo "🔧 Idioma: Português Brasil"
 echo
 echo "COMO USAR:"
@@ -377,10 +374,6 @@ echo
 echo "OBSERVAÇÕES IMPORTANTES:"
 echo "⚠️  Se você foi adicionado ao grupo dialout, faça logout e login"
 echo "    novamente para que as permissões da porta serial funcionem."
-echo
-
-echo "⚠️  Se a porta /dev/ttyUSB0 não existir, você pode alterá-la no"
-echo "    Arduino IDE em: Ferramentas → Porta"
 echo
 
 echo "⚠️  As configurações podem ser alteradas posteriormente através"
