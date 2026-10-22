@@ -74,7 +74,7 @@ if ([string]::IsNullOrWhiteSpace($env:TEMP) -or [string]::IsNullOrWhiteSpace($en
     throw "Não foi possível determinar os diretórios temporário e de usuário."
 }
 
-tempDir = Join-Path $env:TEMP ("ArduinoInstall-" + [guid]::NewGuid().ToString("N"))
+$tempDir = Join-Path $env:TEMP ("ArduinoInstall-" + [guid]::NewGuid().ToString("N"))
 $sketchbookPath = Join-Path $env:USERPROFILE "Documents\Arduino"
 $preferencesPath = Join-Path $env:LOCALAPPDATA "Arduino15\preferences.txt"
 $ardublockJarPath = Join-Path $sketchbookPath "tools\ArduBlockTool\tool\ardublock-all.jar"
