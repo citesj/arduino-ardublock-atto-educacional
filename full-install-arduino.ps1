@@ -1,6 +1,6 @@
 ﻿# Script de Instalação Completa: Arduino IDE 1.8.19 + ArduBlock para Windows
 # Autor: Eduardo "duZÃO" Henrique
-# Data: 21/10/2026
+# Data: 22/10/2026
 
 # Força o PowerShell a entender caracteres especiais na leitura e na saída
 $OutputEncoding = [System.Text.Encoding]::UTF8
@@ -96,7 +96,7 @@ try {
             throw "O arquivo baixado do Arduino IDE está vazio ou não foi criado."
         }
 
-        Write-InstallationLog -Message "Instalador baixado. Executando processo de instalação. Aguarde..." -Color White
+        Write-InstallationLog -Message "Download concluído. Executando processo de instalação. Aguarde..." -Color White
         $installProcess = Start-Process -FilePath $exePath -ArgumentList "/S" -Wait -PassThru
         if ($installProcess.ExitCode -ne 0) {
             throw "O instalador do Arduino IDE terminou com código $($installProcess.ExitCode)."
