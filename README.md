@@ -5,7 +5,7 @@ Siga as instruções abaixo para instalar o Arduino IDE e o ArduBlock. Escolha a
 ## 🪟 Windows (PowerShell)
 
 ### 📥 Download Direto
-> [**Baixe o instalador do Windows (.exe) na release mais recente**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/latest)
+> [**Baixe o instalador do Windows (.exe)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v.1.0.2/Instalador_Arduino_Atto.exe)
 
 ### Pré-requisitos
 * Ter privilégios de Administrador no computador.
@@ -24,7 +24,7 @@ O instalador do Windows não é assinado digitalmente e pode exibir um aviso do 
 ## 🐧 Linux (Bash)
 
 ### 📥 Download Direto
-> [**Clique aqui para baixar o instalador do Linux (.sh)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.1/full-install-arduino.sh)
+> [**Clique aqui para baixar o instalador do Linux (.sh)**](https://github.com/citesj/arduino-ardublock-atto-educacional/releases/download/v1.0.2/full-install-arduino.sh)
 
 ### Pré-requisitos
 * Sistema baseado em Debian/Ubuntu (ou que suporte `apt` e `wget`).
