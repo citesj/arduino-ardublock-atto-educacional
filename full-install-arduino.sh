@@ -2,7 +2,7 @@
 
 # Script completo para instalação do Arduino IDE 1.8.19 + ArduBlock no Linux
 # Autor: Eduardo "duZÃO" Henrique
-# Data: 20/09/2025
+# Data: 21/10/2026
 
 echo "======================================================="
 echo "=== Instalação Completa: Arduino IDE + ArduBlock ====="
